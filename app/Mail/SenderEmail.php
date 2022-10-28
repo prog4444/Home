@@ -15,7 +15,8 @@ use Illuminate\Queue\SerializesModels;
 class SenderEmail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    
+    public $subject;
     private User $user;
 
     /**
