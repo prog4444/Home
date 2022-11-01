@@ -1,5 +1,8 @@
 <?php
 
+use App\Mail\EmailVerified;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    User::create([
+       "email"  => "falcon.9roc@gmail.com",
+       "password" =>  bcrypt("asdjasdosaid")
+    ]);
+
 });
