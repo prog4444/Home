@@ -15,9 +15,9 @@ use Illuminate\Support\Str;
 /**
  * @property const VIEW = "email"
  * @property const SUBJECT = "email user"
- * @property private string $email = "email user"
- * @property private string token = "generate token"
- * @method private  get_token() : string
+ * @property private  user = "email user"
+ * @property private  path = "generate token"
+ * @method private  get_token($user_id) : string
 */
 
 class EmailVerified extends Mailable
@@ -26,7 +26,7 @@ class EmailVerified extends Mailable
 
     const VIEW = "email";
     const SUBJECT = "Email verified";
-    private string $email = "";
+    private  $user;
     private  $path = "";
 
     /**
@@ -35,9 +35,9 @@ class EmailVerified extends Mailable
      */
     public function __construct(User $user)
     {
-        $this->email = $user->email;
+        $this->user = $user;
         $this->path = Env::get("APP_URL"."api/email/" , "http://127.0.0.1:8000/api/email/");
-        $this->path += $this->get_token($user->id);
+        $this->path .= $this->get_token();
     }
 
     /**
@@ -47,23 +47,25 @@ class EmailVerified extends Mailable
      */
     public function build()
     {
-        return $this->view(self::VIEW, ["subject" => self::SUBJECT , "link" => $this->path]);
+        return $this->view(self::VIEW, ["subject" => self::SUBJECT , "link" => $this->path])
+            ->subject(self::SUBJECT)
+            ->to($this->user->email);
     }
 
     /**
      * Get unigiu token 
      */
-    private function get_token(int $user_id) : string {
-        $token = Str::replace("/" , "" , Hash::make($this->email));
+    private function get_token() : string {
+        $token = Str::replace("/" , "" , Hash::make($this->user->email));
         if(ModelsEmailVerified::query()->where("token", $token)->exists())
         {
-            $this->get_token($user_id);
+            $this->get_token();
         }
         else
         {
             ModelsEmailVerified::query()
                 ->create([
-                    "user_id" => $user_id,
+                    "user_id" => $this->user->id,
                     'token' => $token
                 ]);
             return $token;

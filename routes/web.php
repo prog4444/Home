@@ -16,10 +16,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    User::create([
-       "email"  => "falcon.9roc@gmail.com",
-       "password" =>  bcrypt("asdjasdosaid")
-    ]);
-
-});
