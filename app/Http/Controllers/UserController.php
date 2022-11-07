@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -47,9 +48,31 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        
+        try {
+            $inter = User::find($id);
+            if(!auth()->$inter){         
+                $inter->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                ]);
+                return response()->json([
+                    'message' => 'Изменён!',
+                ]);
+            }else {
+                return response()->json([
+                    'message' => 'Not found'
+                ], 404);
+            }
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Что то работает неправильно пожалуйста обратитесь к СА!(((',
+                'errors' => $th->getMessage()
+            ], 422);
+        }
+       
     }
 
     /**
