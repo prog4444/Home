@@ -16,6 +16,7 @@ class CreateApartmentsTable extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->string('city_id');
+            $table->interger('user_id');
             $table->text('terms_id');
             $table->string('how_many_rooms')->nullable();
             $table->string('description')->nullable();
