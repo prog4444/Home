@@ -16,12 +16,12 @@ class CreateApartmentsTable extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->string('city_id');
+            $table->text('terms_id');
             $table->string('how_many_rooms')->nullable();
-            $table->text('terms');
-            $table->string('description');
-            $table->string('price');
+            $table->string('description')->nullable();
+            $table->string('price')->nullable();
             $table->string('is_free');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }
