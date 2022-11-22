@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Apartiment\StoreRequest;
 use App\Http\Requests\Apartiment\UpdateRequest;
+use App\Http\Requests\PhotoRequest;
 use App\Models\Apartment;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 
 class ApartimentController extends Controller
@@ -109,9 +111,26 @@ class ApartimentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function storeMedia($id)
+    public function storeMedia(PhotoRequest $request)
     {
-        //
+        $data = $request->validated();
+        if(!isset($data['description'])){
+            $data['description'] = null;
+        }
+        if(!isset($data['address'])){
+            $data['address'] = null;
+        }
+        if(!isset($data['price'])){
+            $data['price'] = null;
+        }
+        if(!isset($data['how_many_rooms'])){
+            $data['how_many_rooms'] = null;
+        }
+        $apartiment = Apartment::query()->create($data);
+        $post->addMediaFromRequest('images')->toMediaCollection();
+        return response()->json([
+            "message" => 'Фотография добавлено'
+        ]);
     }
 
     public function deleteMedia()
