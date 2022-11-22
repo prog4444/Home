@@ -17,9 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/" , function(){
-    User::query()->truncate();
-    User::create([
-        "email" => "prog90003@gmail.com",
-        "password" => "sardor12",
-    ]);
+  echo 1;
 });
