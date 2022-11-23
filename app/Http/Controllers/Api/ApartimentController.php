@@ -19,7 +19,7 @@ class ApartimentController extends Controller
      */
     public function index()
     {
-        $apartiments = Apartment::with()
+        
     }
 
     /**
@@ -127,7 +127,7 @@ class ApartimentController extends Controller
             $data['how_many_rooms'] = null;
         }
         $apartiment = Apartment::query()->create($data);
-        $post->addMediaFromRequest('images')->toMediaCollection();
+        $apartiment->addMediaFromRequest('images')->toMediaCollection();
         return response()->json([
             "message" => 'Фотография добавлено'
         ]);
