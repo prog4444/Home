@@ -8,6 +8,7 @@ use App\Http\Requests\Apartiment\UpdateRequest;
 use App\Http\Requests\PhotoRequest;
 use App\Models\Apartment;
 use App\Models\Photo;
+use App\Models\PhotoControl;
 use Illuminate\Http\Request;
 
 class ApartimentController extends Controller
@@ -111,26 +112,24 @@ class ApartimentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function storeMedia(PhotoRequest $request)
+    public function storeMedia(PhotoRequest $request, $id)
     {
-        $data = $request->validated();
-        if(!isset($data['description'])){
-            $data['description'] = null;
+
+        $apartiment = Apartment::find($id);
+        foreach ($request->file()['images'] as $key => $image) {
+            $media = $apartiment->addMedia($image)->toMediaCollection('image');
+            return $media;
         }
-        if(!isset($data['address'])){
-            $data['address'] = null;
-        }
-        if(!isset($data['price'])){
-            $data['price'] = null;
-        }
-        if(!isset($data['how_many_rooms'])){
-            $data['how_many_rooms'] = null;
-        }
-        $apartiment = Apartment::query()->create($data);
-        $apartiment->addMediaFromRequest('images')->toMediaCollection();
-        return response()->json([
-            "message" => 'Фотография добавлено'
-        ]);
+       
+        // $apartiment = Apartment::find($id);
+        // $file = $request->file('images');
+        // $apartiment->addMedia($file)->toMediaCollection('images');
+        // $apartiment->save();
+        // return response()->json([
+        //     "message" => 'Фотография добавлено'
+        // ]);
+
+        
     }
 
     public function deleteMedia()

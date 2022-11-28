@@ -24,13 +24,6 @@ class PhotoRequest extends FormRequest
     public function rules()
     {
         return [
-            'city_id' => 'required|exists:cities,id',
-            'terms_id' => 'required|exists:terms,id',
-            'how_many_rooms' => 'integer|nullable',
-            'description' => 'string|nullable',
-            'price' => 'nullable',
-            'is_free' => 'required|boolean',
-            'address' => 'nullable|string',
             'images' => 'nullable|image|max:5120|mimes:jpg,jpeg,png',
         ];
     }

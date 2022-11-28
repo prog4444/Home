@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+const IMAGECOLLECT = 'images';
+
 class Apartment extends Model
 {
     use HasFactory;
