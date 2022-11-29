@@ -9,6 +9,7 @@ use App\Http\Requests\PhotoRequest;
 use App\Models\Apartment;
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ApartimentController extends Controller
 {
@@ -111,23 +112,12 @@ class ApartimentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function storeMedia(PhotoRequest $request)
+    public function storeMedia(PhotoRequest $request, $id)
     {
-        $data = $request->validated();
-        if(!isset($data['description'])){
-            $data['description'] = null;
+        $apartiment = Apartment::find($id);
+        if ($request->has('images')) {
+            $apartiment->addMedia($request->file()['images'])->toMediaCollection(Apartment::COLLECTIONNAME);
         }
-        if(!isset($data['address'])){
-            $data['address'] = null;
-        }
-        if(!isset($data['price'])){
-            $data['price'] = null;
-        }
-        if(!isset($data['how_many_rooms'])){
-            $data['how_many_rooms'] = null;
-        }
-        $apartiment = Apartment::query()->create($data);
-        $apartiment->addMediaFromRequest('images')->toMediaCollection();
         return response()->json([
             "message" => 'Фотография добавлено'
         ]);
