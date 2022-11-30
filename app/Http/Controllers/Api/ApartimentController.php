@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Apartiment\StoreRequest;
 use App\Http\Requests\Apartiment\UpdateRequest;
 use App\Http\Requests\PhotoRequest;
+use App\Http\Requests\StoreMediaRequest;
 use App\Models\Apartment;
 use App\Models\Photo;
 use Illuminate\Http\Request;
@@ -112,7 +113,7 @@ class ApartimentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function storeMedia(PhotoRequest $request, $id)
+    public function storeMedia(StoreMediaRequest $request, $id)
     {
         $apartiment = Apartment::find($id);
         if ($request->has('images')) {
